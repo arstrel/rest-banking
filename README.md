@@ -7,8 +7,8 @@ Learning objectives
 - Request and Response Headers
 - Converting (Marshal) data structures to JSON and XML
 
-Routes:
-GET /greeting -> Hello world
-GET /customers -> list of customers in json by default of in xml if header "Content-Type: application/xml"
-GET /customers/{numeric value}
-POST /customers -> Post request received
+## Hexagonal Architecture
+
+[blog from Netflix](https://netflixtechblog.com/ready-for-changes-with-hexagonal-architecture-b315ec967749)
+
+![Architecture at a high level](https://miro.medium.com/max/1400/1*NfFzI7Z-E3ypn8ahESbDzw.png)
