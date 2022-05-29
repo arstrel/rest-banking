@@ -15,12 +15,18 @@ func Start() {
 	router := mux.NewRouter()
 
 	// Wiring
-	customerRepo := domain.NewCustomerRepositoryStub()
-	customerService := service.NewCustomerService(customerRepo)
-	customerHandlers := CustomerHandlers{customerService}
+	customerRepoMock := domain.NewCustomerRepositoryStub()
+	customerRepoDB := domain.NewCustomerRepositoryDb()
+
+	customerServiceMock := service.NewCustomerService(customerRepoMock)
+	customerServiceDB := service.NewCustomerService(customerRepoDB)
+
+	customerHandlers := CustomerHandlers{customerServiceDB}
+	customerMockHandlers := CustomerHandlers{customerServiceMock}
 
 	// define routes
 	router.HandleFunc("/customers", customerHandlers.getAllCustomers).Methods(http.MethodGet)
+	router.HandleFunc("/mock/customers", customerMockHandlers.getAllCustomers).Methods(http.MethodGet)
 
 	// starting server. Second arg is a handler, if nil is passed - default handler will be used
 	log.Fatal(http.ListenAndServe(":8000", router))

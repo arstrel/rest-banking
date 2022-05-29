@@ -9,6 +9,7 @@ func (s CustomerRepositoryStub) FindAll() ([]Customer, error) {
 	return s.customers, nil
 }
 
+// Mock Adapter
 func NewCustomerRepositoryStub() CustomerRepositoryStub {
 	customers := []Customer{
 		{Id: "1001", Name: "Jimbo", City: "New York", Zipcode: "12213", DateofBirth: "1999-10-19", Status: "1"},
