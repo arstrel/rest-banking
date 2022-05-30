@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/arstrel/rest-banking/domain"
+	"github.com/arstrel/rest-banking/dto"
 	"github.com/arstrel/rest-banking/errs"
 )
 
@@ -11,15 +12,15 @@ import (
 // specific to a domain action (e.g., onboarding a production)
 
 type CustomerService interface {
-	GetAllCustomers(string) ([]domain.Customer, *errs.AppError)
-	GetCustomer(string) (*domain.Customer, *errs.AppError)
+	GetAllCustomers(string) ([]dto.CustomerResponse, *errs.AppError)
+	GetCustomer(string) (*dto.CustomerResponse, *errs.AppError)
 }
 
 type DefaultCustomerService struct {
 	repo domain.CustomerRepository
 }
 
-func (s DefaultCustomerService) GetAllCustomers(status string) ([]domain.Customer, *errs.AppError) {
+func (s DefaultCustomerService) GetAllCustomers(status string) ([]dto.CustomerResponse, *errs.AppError) {
 	statusToCodeMap := map[string]string{
 		"active":   "1",
 		"inactive": "0",
@@ -31,11 +32,31 @@ func (s DefaultCustomerService) GetAllCustomers(status string) ([]domain.Custome
 		status = ""
 	}
 
-	return s.repo.FindAll(status)
+	cust, err := s.repo.FindAll(status)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var resp = make([]dto.CustomerResponse, 0)
+
+	for _, c := range cust {
+		resp = append(resp, c.ToDto())
+	}
+
+	return resp, nil
 }
 
-func (s DefaultCustomerService) GetCustomer(id string) (*domain.Customer, *errs.AppError) {
-	return s.repo.ById(id)
+func (s DefaultCustomerService) GetCustomer(id string) (*dto.CustomerResponse, *errs.AppError) {
+	c, err := s.repo.ById(id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	response := c.ToDto()
+
+	return &response, nil
 }
 
 func NewCustomerService(repository domain.CustomerRepository) DefaultCustomerService {

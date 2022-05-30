@@ -9,7 +9,21 @@ Learning objectives
 - Connecting and Working with MySQL DB
 - Introduce structured logger by zap
 - Introduce Sqlx for dealing with MySQL DB
+- Introduce Data Transfer Object (DTO) to interact between user side <-> business side <-> server side
 - Login functionality
+
+## Environment variables
+
+Following env vars are required to run the app:
+SERVER_ADDRESS
+SERVER_PORT
+DB_USER
+DB_PASSWD
+DB_PORT
+DB_ADDR
+DB_NAME
+
+Currently set in `start.sh`
 
 ## Hexagonal Architecture
 

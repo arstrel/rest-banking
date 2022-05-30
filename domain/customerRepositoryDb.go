@@ -2,6 +2,8 @@ package domain
 
 import (
 	"database/sql"
+	"fmt"
+	"os"
 	"time"
 
 	"github.com/arstrel/rest-banking/errs"
@@ -57,7 +59,15 @@ func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError) {
 
 // Create a connection
 func NewCustomerRepositoryDb() CustomerRepositoryDb {
-	client, err := sqlx.Open("mysql", "root:artemio@tcp(localhost:3306)/banking")
+	dbUser := os.Getenv("DB_USER")
+	dbPassws := os.Getenv("DB_PASSWD")
+	dbPort := os.Getenv("DB_PORT")
+	dbAddr := os.Getenv("DB_ADDR")
+	dbName := os.Getenv("DB_NAME")
+
+	dataSource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPassws, dbAddr, dbPort, dbName)
+
+	client, err := sqlx.Open("mysql", dataSource)
 	if err != nil {
 		panic(err)
 	}
