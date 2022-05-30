@@ -5,10 +5,12 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/arstrel/rest-banking/domain"
 	"github.com/arstrel/rest-banking/service"
 	"github.com/gorilla/mux"
+	"github.com/jmoiron/sqlx"
 )
 
 func sanityCheck() {
@@ -38,6 +40,28 @@ func sanityCheck() {
 	}
 }
 
+func getDbClient() *sqlx.DB {
+	dbUser := os.Getenv("DB_USER")
+	dbPasswd := os.Getenv("DB_PASSWD")
+	dbPort := os.Getenv("DB_PORT")
+	dbAddr := os.Getenv("DB_ADDR")
+	dbName := os.Getenv("DB_NAME")
+
+	// "#{dbUser}:#{dbPasswd}@tcp(#{dbAddr}:#{dbPort})/#{dbName}"
+	dataSource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPasswd, dbAddr, dbPort, dbName)
+
+	client, err := sqlx.Open("mysql", dataSource)
+	if err != nil {
+		panic(err)
+	}
+	// See "Important settings" section.
+	client.SetConnMaxLifetime(time.Minute * 3)
+	client.SetMaxOpenConns(10)
+	client.SetMaxIdleConns(10)
+
+	return client
+}
+
 func Start() {
 
 	sanityCheck()
@@ -46,8 +70,11 @@ func Start() {
 	// mux := http.NewServeMux()
 	router := mux.NewRouter()
 
+	dbClient := getDbClient()
+
 	// Wiring
-	customerRepoDB := domain.NewCustomerRepositoryDb()
+	customerRepoDB := domain.NewCustomerRepositoryDb(dbClient)
+	// accountRepoDB := domain.NewAccountRepositoryDb(dbClient)
 	customerServiceDB := service.NewCustomerService(customerRepoDB)
 	customerHandlers := CustomerHandlers{customerServiceDB}
 
