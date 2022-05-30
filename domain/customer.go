@@ -18,6 +18,6 @@ type Customer struct {
 
 // Repository interface - secondary port. Sits in between Domain(Business) and Backend(ServerSide)
 type CustomerRepository interface {
-	FindAll() ([]Customer, error)
+	FindAll(status string) ([]Customer, *errs.AppError)
 	ById(string) (*Customer, *errs.AppError)
 }
