@@ -2,38 +2,58 @@ package domain
 
 import (
 	"database/sql"
+	"log"
 	"time"
 
 	"github.com/arstrel/rest-banking/errs"
-	"github.com/arstrel/rest-banking/logger"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
 )
 
+/*
+* This is previous iteration of customerRepositoryDb
+* done with standard go SQL package
+* 
+*
+*	Keeping it here for reference
+* Not used anymore in the app
+*
+*/
+
 type CustomerRepositoryDb struct {
-	client *sqlx.DB
+	client *sql.DB
 }
 
 func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError) {
 
+	var rows *sql.Rows
 	var err error
-	customers := make([]Customer, 0)
 
 	if status == "" {
 		findAllSql := "SELECT customer_id, name, city, zipcode, date_of_birth, status FROM customers"
-		err = d.client.Select(&customers, findAllSql)
+		rows, err = d.client.Query(findAllSql)
 	} else {
 		findAllSql := "SELECT customer_id, name, city, zipcode, date_of_birth, status FROM customers WHERE status = ?"
-		err = d.client.Select(&customers, findAllSql, status)
+		rows, err = d.client.Query(findAllSql, status)
 	}
 
 	if err != nil {
-		logger.Error("Error while querying customer table " + err.Error())
+		log.Println("Error while querying customer table " + err.Error())
 		return nil, errs.NewUnexpectedError("unexpected database error while querying customer table")
 	}
 
-	// sqlx Select combines querying and marshaling so there is no need for this line anymore
-	// err = sqlx.StructScan(rows, &customers)
+	customers := make([]Customer, 0)
+
+	for rows.Next() {
+		c := Customer{}
+		err := rows.Scan(&c.Id, &c.Name, &c.City, &c.Zipcode, &c.DateofBirth, &c.Status)
+
+		if err != nil {
+			log.Println("Error while scanning customers " + err.Error())
+			return nil, errs.NewUnexpectedError("unexpected database error while scanning customers")
+		}
+
+		customers = append(customers, c)
+	}
 
 	return customers, nil
 }
@@ -41,23 +61,25 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError
 func (d CustomerRepositoryDb) ById(id string) (*Customer, *errs.AppError) {
 	findByIdSql := "SELECT customer_id, name, city, zipcode, date_of_birth, status FROM customers WHERE customer_id = ?"
 
+	row := d.client.QueryRow(findByIdSql, id)
+
 	c := Customer{}
-	err := d.client.Get(&c, findByIdSql, id)
+
+	err := row.Scan(&c.Id, &c.Name, &c.City, &c.Zipcode, &c.DateofBirth, &c.Status)
 
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, errs.NewNotFoundError("customer not found")
 		}
-		logger.Error("Error while scanning customer " + err.Error())
+		log.Println("Error while scanning customer " + err.Error())
 		return nil, errs.NewUnexpectedError("unexpected database error")
 	}
 
 	return &c, nil
 }
 
-// Create a connection
 func NewCustomerRepositoryDb() CustomerRepositoryDb {
-	client, err := sqlx.Open("mysql", "root:artemio@tcp(localhost:3306)/banking")
+	client, err := sql.Open("mysql", "root:artemio@tcp(localhost:3306)/banking")
 	if err != nil {
 		panic(err)
 	}
