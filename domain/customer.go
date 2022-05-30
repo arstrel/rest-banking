@@ -1,5 +1,7 @@
 package domain
 
+import "github.com/arstrel/rest-banking/errs"
+
 // Entities are the domain objects (Business object)
 type Customer struct {
 	Id          string
@@ -17,5 +19,5 @@ type Customer struct {
 // Repository interface - secondary port. Sits in between Domain(Business) and Backend(ServerSide)
 type CustomerRepository interface {
 	FindAll() ([]Customer, error)
-	ById(string) (*Customer, error)
+	ById(string) (*Customer, *errs.AppError)
 }

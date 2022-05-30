@@ -1,8 +1,9 @@
 package domain
 
 import (
-	"errors"
 	"fmt"
+
+	"github.com/arstrel/rest-banking/errs"
 )
 
 // business - backend adapter
@@ -14,14 +15,14 @@ func (s CustomerRepositoryStub) FindAll() ([]Customer, error) {
 	return s.customers, nil
 }
 
-func (s CustomerRepositoryStub) ById(id string) (*Customer, error) {
+func (s CustomerRepositoryStub) ById(id string) (*Customer, *errs.AppError) {
 	for _, c := range s.customers {
 		if c.Id == id {
 			return &c, nil
 		}
 	}
 	msg := fmt.Sprintf("Customer with id: %v is not found", id)
-	return nil, errors.New(msg)
+	return nil, errs.NewNotFoundError(msg)
 
 }
 
