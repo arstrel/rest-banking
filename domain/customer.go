@@ -17,4 +17,5 @@ type Customer struct {
 // Repository interface - secondary port. Sits in between Domain(Business) and Backend(ServerSide)
 type CustomerRepository interface {
 	FindAll() ([]Customer, error)
+	ById(string) (*Customer, error)
 }

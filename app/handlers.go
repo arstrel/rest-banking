@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/arstrel/rest-banking/service"
+	"github.com/gorilla/mux"
 )
 
 type CustomerHandlers struct {
@@ -28,6 +29,20 @@ func (ch *CustomerHandlers) getAllCustomers(w http.ResponseWriter, r *http.Reque
 	} else {
 		w.Header().Add("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(customers)
+	}
+
+}
+
+func (ch *CustomerHandlers) getCustomerById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	customer, err := ch.service.GetCustomer(vars["id"])
+
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprint(w, err.Error())
+	} else {
+		w.Header().Add("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(customer)
 	}
 
 }
