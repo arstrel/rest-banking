@@ -18,7 +18,7 @@ func (d AccountRepositoryDb) Save(a Account) (*Account, *errs.AppError) {
 	result, err := d.client.Exec(sqlInsert, a.CustomerId, a.OpeningDate, a.AccountType, a.Amount, a.Status)
 
 	if err != nil {
-		logger.Error("Error while saving new account: " + err.Error())
+		logger.Error("Error while saving an account: " + err.Error())
 		return nil, errs.NewUnexpectedError("Unexpected error from database")
 	}
 

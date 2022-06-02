@@ -74,13 +74,17 @@ func Start() {
 
 	// Wiring
 	customerRepoDB := domain.NewCustomerRepositoryDb(dbClient)
-	// accountRepoDB := domain.NewAccountRepositoryDb(dbClient)
 	customerServiceDB := service.NewCustomerService(customerRepoDB)
 	customerHandlers := CustomerHandlers{customerServiceDB}
+
+	accountRepoDB := domain.NewAccountRepositoryDb(dbClient)
+	accountServiceDB := service.NewAccountService(accountRepoDB)
+	accountHandlers := AccountHandlers{accountServiceDB}
 
 	// define routes
 	router.HandleFunc("/customers", customerHandlers.getAllCustomers).Methods(http.MethodGet)
 	router.HandleFunc("/customers/{id:[0-9]+}", customerHandlers.getCustomerById).Methods(http.MethodGet)
+	router.HandleFunc("/customers/{id:[0-9]+}/account", accountHandlers.newAccount).Methods(http.MethodPost)
 
 	// Wiring Mock
 	customerRepoMock := domain.NewCustomerRepositoryStub()

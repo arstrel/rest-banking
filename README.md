@@ -15,13 +15,13 @@ Learning objectives
 ## Environment variables
 
 Following env vars are required to run the app:
-SERVER_ADDRESS
-SERVER_PORT
-DB_USER
-DB_PASSWD
-DB_PORT
-DB_ADDR
-DB_NAME
+SERVER_ADDRESS\
+SERVER_PORT\
+DB_USER\
+DB_PASSWD\
+DB_PORT\
+DB_ADDR\
+DB_NAME\
 
 Currently set in `start.sh`
 
@@ -33,13 +33,13 @@ Currently set in `start.sh`
 
 ## Routes
 
-GET /customers -> get all customers in JSON from local MySQL DB
-GET /customers/{numeric customer id} -> get single customer as JSON by id
-GET /customers?status=active | inactive -> get all customers by status.
+GET /customers -> get all customers in JSON from local MySQL DB\
+GET /customers/{numeric customer id} -> get single customer as JSON by id\
+GET /customers?status=active | inactive -> get all customers by status.\
 
 ## Mock Routes
 
-GET /mock/customers -> get all mock customers in JSON from mock slice of customers
-GET /mock/customers/{numeric customer id} -> get single mock customer as JSON by id
-GET /mock/customers/{numeric customer id} -> get single mock customer as JSON by id
-GET /mock/customers?status=active | inactive -> get all customers by status.
+GET /mock/customers -> get all mock customers in JSON from mock slice of customers\
+GET /mock/customers/{numeric customer id} -> get single mock customer as JSON by id\
+GET /mock/customers/{numeric customer id} -> get single mock customer as JSON by id\
+GET /mock/customers?status=active | inactive -> get all customers by status.\

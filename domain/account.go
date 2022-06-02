@@ -1,6 +1,9 @@
 package domain
 
-import "github.com/arstrel/rest-banking/errs"
+import (
+	"github.com/arstrel/rest-banking/dto"
+	"github.com/arstrel/rest-banking/errs"
+)
 
 // Account domain object
 type Account struct {
@@ -15,4 +18,10 @@ type Account struct {
 // Secondary port - interface
 type AccountRepository interface {
 	Save(Account) (*Account, *errs.AppError)
+}
+
+func (a Account) ToNewAccountResponseDto() dto.NewAccountResponse {
+	return dto.NewAccountResponse{
+		AccountId: a.AccountId,
+	}
 }
