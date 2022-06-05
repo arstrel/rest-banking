@@ -85,6 +85,7 @@ func Start() {
 	router.HandleFunc("/customers", customerHandlers.getAllCustomers).Methods(http.MethodGet)
 	router.HandleFunc("/customers/{id:[0-9]+}", customerHandlers.getCustomerById).Methods(http.MethodGet)
 	router.HandleFunc("/customers/{id:[0-9]+}/account", accountHandlers.newAccount).Methods(http.MethodPost)
+	router.HandleFunc("/customer/{customer_id:[0-9]+}/account/{account_id:[0-9]+}", accountHandlers.makeTransaction).Methods(http.MethodPost)
 
 	// Wiring Mock
 	customerRepoMock := domain.NewCustomerRepositoryStub()

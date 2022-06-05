@@ -31,3 +31,24 @@ func (ah AccountHandlers) newAccount(w http.ResponseWriter, r *http.Request) {
 	writeResponse(w, http.StatusCreated, acc)
 
 }
+
+func (ah AccountHandlers) makeTransaction(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	accountId := vars["account_id"]
+	customerId := vars["customer_id"]
+
+	request := dto.TransactionRequest{AccountId: accountId, CustomerId: customerId}
+	err := json.NewDecoder(r.Body).Decode(&request)
+	if err != nil {
+		writeResponse(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	acc, appErr := ah.service.MakeTransaction(request)
+	if appErr != nil {
+		writeResponse(w, appErr.Code, appErr.AsMessage())
+		return
+	}
+
+	writeResponse(w, http.StatusCreated, acc)
+}
