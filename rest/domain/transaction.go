@@ -1,8 +1,8 @@
 package domain
 
 import (
-	"github.com/arstrel/rest-banking/dto"
-	"github.com/arstrel/rest-banking/errs"
+	"github.com/arstrel/rest-banking/rest/dto"
+	"github.com/arstrel/rest-banking/rest/errs"
 )
 
 type Transaction struct {

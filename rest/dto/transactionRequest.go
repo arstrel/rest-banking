@@ -1,6 +1,6 @@
 package dto
 
-import "github.com/arstrel/rest-banking/errs"
+import "github.com/arstrel/rest-banking/rest/errs"
 
 type TransactionRequest struct {
 	AccountId       string  `json:"account_id"`

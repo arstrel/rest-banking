@@ -1,4 +1,4 @@
-module github.com/arstrel/rest-banking
+module github.com/arstrel/rest-banking/rest
 
 go 1.18
 

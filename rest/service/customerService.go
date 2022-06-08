@@ -1,9 +1,9 @@
 package service
 
 import (
-	"github.com/arstrel/rest-banking/domain"
-	"github.com/arstrel/rest-banking/dto"
-	"github.com/arstrel/rest-banking/errs"
+	"github.com/arstrel/rest-banking/rest/domain"
+	"github.com/arstrel/rest-banking/rest/dto"
+	"github.com/arstrel/rest-banking/rest/errs"
 )
 
 // Interactors are classes that orchestrate and perform domain actions —

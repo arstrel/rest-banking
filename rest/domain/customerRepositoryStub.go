@@ -3,7 +3,7 @@ package domain
 import (
 	"fmt"
 
-	"github.com/arstrel/rest-banking/errs"
+	"github.com/arstrel/rest-banking/rest/errs"
 )
 
 // business - backend adapter

@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/arstrel/rest-banking/domain"
-	"github.com/arstrel/rest-banking/service"
+	"github.com/arstrel/rest-banking/rest/domain"
+	"github.com/arstrel/rest-banking/rest/service"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
 )
@@ -85,7 +85,7 @@ func Start() {
 	router.HandleFunc("/customers", customerHandlers.getAllCustomers).Methods(http.MethodGet)
 	router.HandleFunc("/customers/{id:[0-9]+}", customerHandlers.getCustomerById).Methods(http.MethodGet)
 	router.HandleFunc("/customers/{id:[0-9]+}/account", accountHandlers.newAccount).Methods(http.MethodPost)
-	router.HandleFunc("/customer/{customer_id:[0-9]+}/account/{account_id:[0-9]+}", accountHandlers.makeTransaction).Methods(http.MethodPost)
+	router.HandleFunc("/customers/{customer_id:[0-9]+}/account/{account_id:[0-9]+}", accountHandlers.makeTransaction).Methods(http.MethodPost)
 
 	// Wiring Mock
 	customerRepoMock := domain.NewCustomerRepositoryStub()

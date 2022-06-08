@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/arstrel/rest-banking/errs"
+	"github.com/arstrel/rest-banking/rest/errs"
 	_ "github.com/go-sql-driver/mysql"
 )
 
