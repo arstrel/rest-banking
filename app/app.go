@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/arstrel/rest-banking/rest/domain"
-	"github.com/arstrel/rest-banking/rest/service"
+	"github.com/arstrel/rest-banking/domain"
+	"github.com/arstrel/rest-banking/service"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
 )

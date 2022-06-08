@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/arstrel/rest-banking/rest/service"
+	"github.com/arstrel/rest-banking/service"
 	"github.com/gorilla/mux"
 )
 

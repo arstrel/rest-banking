@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/arstrel/rest-banking/rest/app"
-	"github.com/arstrel/rest-banking/rest/logger"
+	"github.com/arstrel/rest-banking/app"
+	"github.com/arstrel/rest-banking/logger"
 )
 
 func main() {

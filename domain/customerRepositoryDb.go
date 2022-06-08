@@ -3,8 +3,8 @@ package domain
 import (
 	"database/sql"
 
-	"github.com/arstrel/rest-banking/rest/errs"
-	"github.com/arstrel/rest-banking/rest/logger"
+	"github.com/arstrel/rest-banking/errs"
+	"github.com/arstrel/rest-banking/logger"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 )

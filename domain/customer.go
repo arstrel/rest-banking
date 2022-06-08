@@ -1,8 +1,8 @@
 package domain
 
 import (
-	"github.com/arstrel/rest-banking/rest/dto"
-	"github.com/arstrel/rest-banking/rest/errs"
+	"github.com/arstrel/rest-banking/dto"
+	"github.com/arstrel/rest-banking/errs"
 )
 
 // This is a server side layer

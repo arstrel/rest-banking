@@ -3,9 +3,9 @@ package service
 import (
 	"time"
 
-	"github.com/arstrel/rest-banking/rest/domain"
-	"github.com/arstrel/rest-banking/rest/dto"
-	"github.com/arstrel/rest-banking/rest/errs"
+	"github.com/arstrel/rest-banking/domain"
+	"github.com/arstrel/rest-banking/dto"
+	"github.com/arstrel/rest-banking/errs"
 )
 
 // port from domain to the outside world
